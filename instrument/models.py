@@ -16,8 +16,8 @@ class Department(models.Model):
 
 
 class Manufacturer(models.Model):
-    english_name = models.CharField(max_length=1024, blank=True, null=True)
-    chinese_name = models.CharField(max_length=1024, blank=True, null=True)
+    english_name = models.CharField(max_length=1024, blank=True, null=True, unique=True)
+    chinese_name = models.CharField(max_length=1024, blank=True, null=True, unique=True)
 
     def __unicode__(self):
         return self.chinese_name or self.english_name
@@ -25,6 +25,14 @@ class Manufacturer(models.Model):
 
 class ReservationType(models.Model):
     name = models.CharField(max_length=256)
+    description = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class ChargeType(models.Model):
+    name = models.CharField(max_length=128)
     description = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
@@ -52,8 +60,14 @@ class Instrument(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, null=True, blank=True)
     model = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    application = models.TextField(blank=True, null=True)
+    accessories = models.TextField(blank=True, null=True)
+    charge_type = models.ForeignKey(ChargeType, null=True)
     # reservation_type = models.CharField(max_length=64, choices=RESERVATION_CHOICES, default="OL")
     reservation_type = models.ManyToManyField(ReservationType)
+    reservation_time_unit = models.IntegerField(default=1)
+    reservation_start_time = models.TimeField(null=True)
+    reservation_end_time = models.TimeField(null=True)
     sci_discount = models.BooleanField(default=True)
 
     def __unicode__(self):

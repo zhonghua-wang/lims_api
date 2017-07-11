@@ -31,3 +31,9 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Reservation
         exclude = []
+
+
+class ChargeTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ChargeType
+        exclude = []

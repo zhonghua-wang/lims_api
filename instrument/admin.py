@@ -31,3 +31,8 @@ class ReservationTypeAdmin(admin.ModelAdmin):
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(ChargeType)
+class ChargeTypeAdmin(admin.ModelAdmin):
+    pass
