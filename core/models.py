@@ -9,7 +9,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     phone = models.CharField(max_length=64, blank=True, null=True)
-    birth_data = models.DateField(null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
 
     def get_full_name_cn(self):
         return self.last_name + self.first_name

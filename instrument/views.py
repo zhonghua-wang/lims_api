@@ -26,10 +26,12 @@ class ReservationTypeViewSet(viewsets.ModelViewSet):
 class InstrumentViewSet(viewsets.ModelViewSet):
     queryset = models.Instrument.objects.all()
     serializer_class = seriazlizers.InstrumentSerializer
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, )
     filter_fields = ('department', 'charge_type', 'status', 'manufacturer')
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
     queryset = models.Reservation.objects.all()
+    filter_backends = (DjangoFilterBackend, )
+    filter_fields = ('instrument', )
     serializer_class = seriazlizers.ReservationSerializer
