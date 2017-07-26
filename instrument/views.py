@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from . import seriazlizers, models
 from django_filters import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions
+from .permissions import IsOwnerOrReadOnly
 # Create your views here.
 
 
@@ -35,3 +37,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, )
     filter_fields = ('instrument', )
     serializer_class = seriazlizers.ReservationSerializer
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
