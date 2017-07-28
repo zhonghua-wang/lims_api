@@ -24,12 +24,12 @@ from lims_api import settings
 
 # rest router
 router = routers.DefaultRouter()
-router.register('user', core_views.UserViewSet)
-router.register('department', instrument_views.DepartmentViewSet)
-router.register('manufacturer', instrument_views.ManufacturerViewSet)
-router.register('reservation-type', instrument_views.ReservationTypeViewSet)
-router.register('instrument', instrument_views.InstrumentViewSet)
-router.register('reservation', instrument_views.ReservationViewSet)
+router.register('users', core_views.UserViewSet)
+router.register('departments', instrument_views.DepartmentViewSet)
+router.register('manufacturers', instrument_views.ManufacturerViewSet)
+router.register('reservation-types', instrument_views.ReservationTypeViewSet)
+router.register('instruments', instrument_views.InstrumentViewSet)
+router.register('reservations', instrument_views.ReservationViewSet)
 
 # end rest
 urlpatterns = [

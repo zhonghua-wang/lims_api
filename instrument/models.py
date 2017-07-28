@@ -53,10 +53,10 @@ class Instrument(models.Model):
     name = models.CharField(max_length=256)
     # todo admin m2m
     status = models.CharField(max_length=64, choices=INSTRUMENT_STATUS_CHOICES, default='R')
-    department = models.ForeignKey(Department, null=True)
+    department = models.ForeignKey(Department, blank=True, null=True)
     location = models.CharField(max_length=256, blank=True, null=True)
     image = models.ImageField(upload_to=settings.UPLOAD_FOLDER, max_length=256)
-    admin = models.ForeignKey(settings.AUTH_USER_MODEL)
+    admin = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, null=True, blank=True)
     model = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
