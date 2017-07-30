@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_serializer_extensions',
+    'dynamic_rest',
     'django_filters',
     'corsheaders',
     'djoser',
@@ -143,10 +143,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
-    'SERIALIZER_EXTENSIONS': {
-        'USE_HASH_IDS': True,
-        'HASH_IDS_SOURCE': 'instrument.salt.HASH_IDS'
-    },
+
 }
 
 # REST CORS

@@ -8,37 +8,38 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
 from rest_framework_serializer_extensions.views import SerializerExtensionsAPIViewMixin
+from dynamic_rest.viewsets import DynamicModelViewSet
 
 
-class DepartmentViewSet(SerializerExtensionsAPIViewMixin, viewsets.ModelViewSet):
+class DepartmentViewSet(DynamicModelViewSet):
     queryset = models.Department.objects.all()
     serializer_class = seriazlizers.DepartmentSerializer
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
 
 
-class ManufacturerViewSet(viewsets.ModelViewSet):
+class ManufacturerViewSet(DynamicModelViewSet):
     queryset = models.Manufacturer.objects.all()
     serializer_class = seriazlizers.ManufacturerSerializer
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
 
 
-class ReservationTypeViewSet(viewsets.ModelViewSet):
+class ReservationTypeViewSet(DynamicModelViewSet):
     queryset = models.ReservationType.objects.all()
     serializer_class = seriazlizers.ReservationTypeSerializer
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
 
 
-class InstrumentViewSet(viewsets.ModelViewSet):
+class InstrumentViewSet(DynamicModelViewSet):
     queryset = models.Instrument.objects.all()
     serializer_class = seriazlizers.InstrumentSerializer
-    filter_backends = (DjangoFilterBackend,)
+    #filter_backends = (DjangoFilterBackend,)
     filter_fields = ('department', 'charge_type', 'status', 'manufacturer')
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
 
 
-class ReservationViewSet(viewsets.ModelViewSet):
+class ReservationViewSet(DynamicModelViewSet):
     queryset = models.Reservation.objects.all()
-    filter_backends = (DjangoFilterBackend,)
+    #filter_backends = (DjangoFilterBackend,)
     filter_fields = ('instrument',)
     serializer_class = seriazlizers.ReservationSerializer
 

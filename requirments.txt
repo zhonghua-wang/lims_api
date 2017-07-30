@@ -4,4 +4,4 @@ django-filter
 django-cors-headers
 markdown
 djoser
-djangorestframework-serializer-extensions
+dynamic-rest
