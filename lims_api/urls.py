@@ -18,13 +18,12 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from rest_framework import routers
 from instrument import views as instrument_views
-from core import views as core_views
 
 from lims_api import settings
 
 # rest router
 router = routers.DefaultRouter()
-router.register('users', core_views.UserViewSet)
+router.register('users', instrument_views.UserViewSet)
 router.register('departments', instrument_views.DepartmentViewSet)
 router.register('manufacturers', instrument_views.ManufacturerViewSet)
 router.register('reservation-types', instrument_views.ReservationTypeViewSet)
