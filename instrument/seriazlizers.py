@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import models
-from core.serializer import UserSerializer
+from core.serializers import UserSerializer
 from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationField
 
 
@@ -34,11 +34,11 @@ class ChargeTypeSerializer(DynamicModelSerializer):
 
 class InstrumentSerializer(DynamicModelSerializer):
 
-    admin = DynamicRelationField('UserSerializer', embed=True)
-    manufacturer = DynamicRelationField('ManufacturerSerializer', embed=True)
-    department = DynamicRelationField('DepartmentSerializer', embed=True)
-    charge_type = DynamicRelationField('ChargeTypeSerializer', embed=True)
-    reservation_type = DynamicRelationField('ReservationTypeSerializer', many=True, embed=True)
+    admin = DynamicRelationField('UserSerializer')
+    manufacturer = DynamicRelationField('ManufacturerSerializer')
+    department = DynamicRelationField('DepartmentSerializer')
+    charge_type = DynamicRelationField('ChargeTypeSerializer')
+    reservation_type = DynamicRelationField('ReservationTypeSerializer', many=True)
 
     class Meta:
         model = models.Instrument
@@ -46,7 +46,7 @@ class InstrumentSerializer(DynamicModelSerializer):
 
 
 class ReservationSerializer(DynamicModelSerializer):
-    user = DynamicRelationField('UserSerializer', embed=True)
+    user = DynamicRelationField('UserSerializer')
 
     class Meta:
         model = models.Reservation
