@@ -7,7 +7,6 @@ from django_filters import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
-from rest_framework_serializer_extensions.views import SerializerExtensionsAPIViewMixin
 from dynamic_rest.viewsets import DynamicModelViewSet
 
 
