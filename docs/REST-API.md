@@ -1,9 +1,9 @@
-#REST API USAGE
+# REST API USAGE
 
-##API ROOT
+## API ROOT
 localhost:8000/api
 
-##API AUTH ROOT
+## API AUTH ROOT
 localhost:8000/auth
 
 ## Side load relationship
