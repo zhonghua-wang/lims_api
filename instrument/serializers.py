@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework import generics
 from . import models
 from core.models import User
 from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationField
@@ -49,6 +50,7 @@ class InstrumentSerializer(DynamicModelSerializer):
         deferred=True
     )
     reservation_count = CountField('reservation_set', deferred=True)
+
     #
     # def get_user_reservation_count(self, instrument):
     #     return len(instrument.reservation_set.all())
@@ -74,5 +76,13 @@ class ChargeTypeSerializer(DynamicModelSerializer):
 
 
 # Aggregation serializer
-class AggSer(serializers.ModelSerializer):
-    pass
+class InstrumentUserReservationCount(serializers.BaseSerializer):
+    reservation_count = serializers.IntegerField()
+    user = serializers.IntegerField()
+
+    def to_representation(self, instance):
+        print instance
+        return {
+            'reservation_count': instance['reservation_count'],
+            'user': instance['user']
+        }

@@ -34,6 +34,7 @@ router.register('reservations', instrument_views.ReservationViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
+    url(r'^statistic/instrument/', instrument_views.InstrumentReservationStatistic.as_view()),
     url(r'^auth/', include('djoser.urls.authtoken')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

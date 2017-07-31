@@ -2,6 +2,10 @@
 from __future__ import unicode_literals
 
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework import generics
+from django.db.models import Count
+
 from . import serializers, models
 from core.models import User
 from django_filters import filters
@@ -63,3 +67,15 @@ class ReservationViewSet(DynamicModelViewSet):
                           IsOwnerOrReadOnly)
 
     ordering = ('start_time',)
+
+
+# aggregation
+
+class InstrumentReservationStatistic(generics.ListAPIView):
+    queryset = models.Reservation.objects\
+        .filter(instrument_id=5)\
+        .values('user')\
+        .annotate(reservation_count=Count('user'))
+    serializer_class = serializers.InstrumentUserReservationCount
+    permission_classes = (permissions.AllowAny, )
+
