@@ -4,7 +4,7 @@
 localhost:8000/api
 
 ## API AUTH ROOT
-localhost:8000/auth
+localhost:8000/api/auth
 
 ## Side load relationship
 load related data along side. I.E. 

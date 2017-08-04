@@ -145,6 +145,11 @@ REST_FRAMEWORK = {
     )
 
 }
-
+# Djoser
+DJOSER = {
+    'SERIALIZERS': {
+        'user': 'instrument.serializers.UserSerializer',
+    }
+}
 # REST CORS
 CORS_ORIGIN_WHITELIST = ['localhost:4200']
