@@ -149,6 +149,7 @@ REST_FRAMEWORK = {
 DJOSER = {
     'SERIALIZERS': {
         'user': 'instrument.serializers.UserSerializer',
+        'user_registration': 'instrument.serializers.UserSerializer',
     }
 }
 # REST CORS
