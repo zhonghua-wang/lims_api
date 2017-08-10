@@ -86,8 +86,13 @@ class iot_view(APIView):
 
     def post(self, request, format=None):
         data = request.POST
-        card_id = data.get('card_id')
-        iot_id = int(data.get('iot_id'))
+
+        try:
+            card_id = data.get('card_id')
+            iot_id = int(data.get('iot_id'))
+        except: # card id or iot id error
+            # todo: error log
+            return Response("E")
         print card_id, iot_id
 
         iot_client = models.IotClient.objects.get(id=iot_id)
@@ -96,8 +101,10 @@ class iot_view(APIView):
         # instrument is ready for using
         if instrument.status == 'R':
             # reservation is needed
-            if instrument.need_reservation and not instrument.is_valid_reservation(user=user):
-                return Response("D")  # return 'D' back to client, which mean deny the request
+            if instrument.need_reservation \
+                    and not instrument.is_valid_reservation(user=user):
+                # return 'D' back to client, which mean deny the request
+                return Response("D")
             else:
                 # new instrument record
                 record = models.InstrumentRecord.objects.create(
@@ -105,5 +112,20 @@ class iot_view(APIView):
                     user=user,
                     start_time=datetime.now()
                 )
-        else:
-            return Response('OK')
+                # set instrument status to "O" (occupied)
+                instrument.status = 'O'
+                # request passed
+                return Response("P")
+        elif instrument.status == 'O':
+            if instrument.is_valid_user(user):
+                try:
+                    record = instrument.instrumentrecord_set.filter(user=user)[0]
+                    record.end_time = datetime.now()
+                    record.save()
+                    instrument.status = 'R'
+                    # iot client logout success
+                    return Response('L')
+                except:
+                    # modify record error
+                    return Response('E')
+

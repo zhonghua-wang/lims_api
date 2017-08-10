@@ -36,3 +36,18 @@ class ReservationAdmin(admin.ModelAdmin):
 @admin.register(ChargeType)
 class ChargeTypeAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(IotClient)
+class IotClientAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(InstrumentRecord)
+class InstrumentRecordAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Temperature)
+class TemperatureAdmin(admin.ModelAdmin):
+    pass

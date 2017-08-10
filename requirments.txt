@@ -1,4 +1,6 @@
 django
+pillow
+six
 djangorestframework
 django-filter
 django-cors-headers

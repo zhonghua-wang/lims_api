@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from lims_api import settings
+from datetime import datetime
 
 
 # Create your models here.
@@ -75,6 +76,13 @@ class Instrument(models.Model):
         return self.name
 
     def is_valid_reservation(self, user):
+        current_datetime = datetime.now()
+        # todo: time validation
+        return self.reservation_set.filter(
+            user=user
+        )
+
+    def is_valid_user(self, user):
         return True
 
 
@@ -95,6 +103,9 @@ class IotClient(models.Model):
     instrument = models.ForeignKey(Instrument)
     create_at = models.DateField(null=True, blank=True)
 
+    def __unicode__(self):
+        return self.instrument.__unicode__()
+
 
 class InstrumentRecord(models.Model):
     instrument = models.ForeignKey(Instrument)
@@ -111,3 +122,6 @@ class Temperature(models.Model):
     iot_client = models.ForeignKey(Instrument)
     value = models.FloatField(null=True, blank=True)
     time = models.DateTimeField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.iot_client.__unicode__()
