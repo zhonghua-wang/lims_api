@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^statistic/instrument/', instrument_views.InstrumentReservationStatistic.as_view()),
     url(r'^api/auth/', include('djoser.urls.authtoken')),
+    url(r'^api/iot/', instrument_views.iot_view.as_view())
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -63,6 +63,7 @@ class Instrument(models.Model):
     application = models.TextField(blank=True, null=True)
     accessories = models.TextField(blank=True, null=True)
     charge_type = models.ForeignKey(ChargeType, null=True)
+    need_reservation = models.BooleanField(default=True)
     # reservation_type = models.CharField(max_length=64, choices=RESERVATION_CHOICES, default="OL")
     reservation_type = models.ManyToManyField(ReservationType)
     reservation_time_unit = models.IntegerField(default=1)
@@ -73,12 +74,40 @@ class Instrument(models.Model):
     def __unicode__(self):
         return self.name
 
+    def is_valid_reservation(self, user):
+        return True
+
 
 class Reservation(models.Model):
     instrument = models.ForeignKey(Instrument)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+
+    def is_valid(self, user_id, instrument_id):
+        pass
 
     def __unicode__(self):
         return self.instrument.name
+
+
+class IotClient(models.Model):
+    instrument = models.ForeignKey(Instrument)
+    create_at = models.DateField(null=True, blank=True)
+
+
+class InstrumentRecord(models.Model):
+    instrument = models.ForeignKey(Instrument)
+    iotClient = models.ForeignKey(IotClient, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.instrument.name
+
+
+class Temperature(models.Model):
+    iot_client = models.ForeignKey(Instrument)
+    value = models.FloatField(null=True, blank=True)
+    time = models.DateTimeField(null=True, blank=True)
