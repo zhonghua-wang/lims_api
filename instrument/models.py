@@ -77,13 +77,17 @@ class Instrument(models.Model):
 
     def is_valid_reservation(self, user):
         current_datetime = datetime.now()
-        # todo: time validation
+        # todo: better error log
         return self.reservation_set.filter(
-            user=user
+            user=user,
+            start_time__lte=current_datetime,
+            end_time__gte=current_datetime
         )
 
     def is_valid_user(self, user):
-        return True
+        # todo: error log
+        latest_record = self.instrumentrecord_set.latest('start_time')
+        return latest_record.user == user
 
 
 class Reservation(models.Model):
@@ -109,13 +113,16 @@ class IotClient(models.Model):
 
 class InstrumentRecord(models.Model):
     instrument = models.ForeignKey(Instrument)
-    iotClient = models.ForeignKey(IotClient, null=True)
+    iot_client = models.ForeignKey(IotClient, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
 
     def __unicode__(self):
         return self.instrument.name
+
+    class Meta:
+        ordering = ['-start_time']
 
 
 class Temperature(models.Model):

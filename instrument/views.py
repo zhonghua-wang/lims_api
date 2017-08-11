@@ -16,6 +16,7 @@ from .permissions import IsOwnerOrReadOnly
 from dynamic_rest.viewsets import DynamicModelViewSet
 from datetime import datetime
 
+
 class UserViewSet(DynamicModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
@@ -90,7 +91,7 @@ class iot_view(APIView):
         try:
             card_id = data.get('card_id')
             iot_id = int(data.get('iot_id'))
-        except: # card id or iot id error
+        except:  # card id or iot id error
             # todo: error log
             return Response("E")
         print card_id, iot_id
@@ -110,22 +111,26 @@ class iot_view(APIView):
                 record = models.InstrumentRecord.objects.create(
                     instrument=instrument,
                     user=user,
-                    start_time=datetime.now()
+                    start_time=datetime.now(),
+                    iot_client=iot_client
                 )
                 # set instrument status to "O" (occupied)
                 instrument.status = 'O'
+                instrument.save()
                 # request passed
                 return Response("P")
         elif instrument.status == 'O':
             if instrument.is_valid_user(user):
                 try:
-                    record = instrument.instrumentrecord_set.filter(user=user)[0]
+                    record = instrument.instrumentrecord_set.filter(user=user).latest('start_time')
                     record.end_time = datetime.now()
                     record.save()
                     instrument.status = 'R'
+                    instrument.save()
                     # iot client logout success
                     return Response('L')
                 except:
                     # modify record error
                     return Response('E')
-
+        else:
+            return Response('E')
