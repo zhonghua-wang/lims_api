@@ -85,8 +85,8 @@ class InstrumentReservationStatistic(generics.ListAPIView):
 class iot_view(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def post(self, request, format=None):
-        data = request.POST
+    def get(self, request, format=None):
+        data = request.GET
 
         try:
             card_id = data.get('card_id')
@@ -96,8 +96,10 @@ class iot_view(APIView):
             return Response("E")
         print card_id, iot_id
 
-        iot_client = models.IotClient.objects.get(id=iot_id)
-        user = User.objects.get(card_id=card_id)
+        iot_client = models.IotClient.objects.filter(id=iot_id).first()
+        user = User.objects.filter(card_id=card_id).first()
+        if not (iot_client and user):
+            return Response("E")
         instrument = iot_client.instrument
         # instrument is ready for using
         if instrument.status == 'R':
@@ -118,7 +120,10 @@ class iot_view(APIView):
                 instrument.status = 'O'
                 instrument.save()
                 # request passed
-                return Response("P")
+                return Response({
+                    "code": "P",
+                    "username": user.username
+                })
         elif instrument.status == 'O':
             if instrument.is_valid_user(user):
                 try:
@@ -128,7 +133,10 @@ class iot_view(APIView):
                     instrument.status = 'R'
                     instrument.save()
                     # iot client logout success
-                    return Response('L')
+                    return Response({
+                        "code": "L",
+                        "username": user.username
+                    })
                 except:
                     # modify record error
                     return Response('E')
