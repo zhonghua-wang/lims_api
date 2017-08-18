@@ -29,7 +29,7 @@ router.register('manufacturers', instrument_views.ManufacturerViewSet)
 router.register('reservation-types', instrument_views.ReservationTypeViewSet)
 router.register('instruments', instrument_views.InstrumentViewSet)
 router.register('reservations', instrument_views.ReservationViewSet)
-router.register('instrument-record', instrument_views.InstrumentRecordViewSet)
+router.register('instrument-records', instrument_views.InstrumentRecordViewSet)
 
 # end rest
 urlpatterns = [
