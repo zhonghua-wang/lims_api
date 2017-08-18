@@ -71,6 +71,16 @@ class ReservationViewSet(DynamicModelViewSet):
     ordering = ('start_time',)
 
 
+class InstrumentRecordViewSet(DynamicModelViewSet):
+    queryset = models.InstrumentRecord.objects.all()
+
+    serializer_class = serializers.InstrumentRecordSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
+
+    ordering = ('start_time',)
+
+
 # aggregation
 class InstrumentReservationStatistic(generics.ListAPIView):
     queryset = models.Reservation.objects \

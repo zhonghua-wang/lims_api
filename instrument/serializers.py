@@ -49,6 +49,11 @@ class InstrumentSerializer(DynamicModelSerializer):
         many=True,
         deferred=True
     )
+    instrument_record_set = DynamicRelationField(
+        'InstrumentSerializer',
+        many=True,
+        deferred=True
+    )
     reservation_count = CountField('reservation_set', deferred=True)
 
     #
@@ -72,6 +77,14 @@ class ReservationSerializer(DynamicModelSerializer):
 class ChargeTypeSerializer(DynamicModelSerializer):
     class Meta:
         model = models.ChargeType
+        exclude = []
+
+
+class InstrumentRecordSerializer(DynamicModelSerializer):
+    user = DynamicRelationField('UserSerializer')
+
+    class Meta:
+        model = models.InstrumentRecord
         exclude = []
 
 
