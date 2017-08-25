@@ -121,8 +121,10 @@ load related data along side. I.E.
     }
 }
 ```
-2. Filter by relationship data, get all reservation of user zhonghua (user.id=12) `(GET) /api/reservations/?include[]=user.*&filter{user.id}=12`
-
+2. Filter by relationship data, get all reservations of user zhonghua (user.id=12) `(GET) /api/reservations/?include[]=user.*&filter{user.id}=12`
+3. Filter by date time, get all reservations between 2017-08-01 and 2017-08-10, 
+and use 'per_page' to specify number of results pre page 
+`(GET) /api/reservations/?filter{start_time.gte}=2017-08-01&filter{start_time.lte}=2017-08-10&per_page=999`
 ## Ordering
 Ordering all instrument list by name
 `(GET) /api/instruments/?sort[]=name`
